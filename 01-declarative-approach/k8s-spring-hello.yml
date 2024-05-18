@@ -1,9 +1,10 @@
+# Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-hello
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,7 +20,7 @@ spec:
     spec:
       containers:
       - name: spring-hello
-        image: albertalvin/k8s-spring-hello:0.0.4-SNAPSHOT
+        image: albertalvin/k8s-spring-hello:0.0.6-SNAPSHOT
         resources:
           limits:
             memory: "128Mi"
@@ -29,3 +30,16 @@ spec:
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: docker
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-hello
+spec:
+  type: LoadBalancer
+  selector:
+    app: spring-hello
+  ports:
+  - port: 2000
+    targetPort: 8080

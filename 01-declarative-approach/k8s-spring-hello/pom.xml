@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>org.albert</groupId>
 	<artifactId>k8s-spring-hello</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<name>k8s-spring-hello</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
