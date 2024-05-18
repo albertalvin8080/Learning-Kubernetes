@@ -1,0 +1,29 @@
+version: '3.8'
+
+#Anchor | Alias 
+x-deploy: &deploy
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [ gpu ]
+
+services:
+  # docker-compose exec -it nginx bash
+  nginx:
+    image: nginx:1.26
+    container_name: nginx
+    ports:
+      - "80:80"
+    <<: *deploy
+
+  web:
+    image: albertalvin/k8s-spring-hello:0.0.4-SNAPSHOT
+    container_name: web
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    <<: *deploy
