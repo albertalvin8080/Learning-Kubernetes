@@ -17,17 +17,26 @@ spec:
     volumeMounts:
     - name: workdir
       mountPath: /usr/share/nginx/html
+
   # This init-container is copying an index.html to a volume which will then be used by NGINX.
   initContainers:
   - name: init-service
-    image: debian:trixie-20240513-slim
+    image: busybox:stable-uclibc
     command: 
-    - apt-get update
-    - apt-get install wget -y
-    - wget -O /work-dir/index.html http://info.cern.ch
+    - wget 
+    - -O 
+    - /work-dir/index.html 
+    - http://info.cern.ch 
     volumeMounts:
     - name: workdir
       mountPath: /work-dir
+
   volumes:
   - name: workdir
     emptyDir: {}
+
+# kubectl logs nginx -c init-service
+# kubectl exec -it nginx -- bash -c "curl localhost"
+# kubectl apply -f nginx.yml
+# kubectl describe pod nginx
+# kubectl delete -f nginx.yml

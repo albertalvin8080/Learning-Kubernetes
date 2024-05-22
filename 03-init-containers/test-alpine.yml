@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine
+  labels:
+    name: alpine
+spec:
+  containers:
+  - name: alpine
+    image: alpine:20240329
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "250m"
+    command:
+    - sh
+    - -c
+    - tail -f /dev/null # starts to monitor /dev/null and waits for changes - since /dev/null is always empty, this command will wait forever. This is often used to keep a process running indefinitely because it’s a command that doesn’t end until the process is explicitly stopped. It’s a way to prevent a container from exiting.
+
+# kubectl exec -it alpine -- sh
+# kubectl apply -f test-alpine.yml
+# kubectl describe pod alpine
+# kubectl delete -f test-alpine.yml

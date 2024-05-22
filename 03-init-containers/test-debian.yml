@@ -14,6 +14,10 @@ spec:
         cpu: "250m"
     # ports:
       # - containerPort: <Port>
-    command: ["bash", "-c", "--"]
-    args: ["while true; do sleep 30; done;"]
+    command:
+    - /bin/bash
+    - -c
+    - while true; do sleep 10; done; # May exceed the grace-period and get killed. 
+    # - tail -f /dev/null # Same here
+    
 # kubectl exec -it debian -- bash

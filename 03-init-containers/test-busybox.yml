@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  labels:
+    name: busybox
+spec:
+  containers:
+  - name: busybox
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "250m"
+    command: # ["sh", "-c", "wget http://info.cern.ch"]
+    - sh
+    - -c
+    - "wget -O test.html http://info.cern.ch; cat test.html;"
+
+# The command above generates a 'back-off restarting failed container' error. ->
+# This BusyBox container is designed to exit after running the command specified in the command field. Since the wget command successfully fetches the file and the cat command logs the content of index.html, the container has completed its task and exits. Kubernetes interprets this as a crash because the container doesn’t keep running.
+
+# kubectl logs busybox
+# kubectl exec -it busybox -- sh
+# kubectl apply -f test-busybox.yml
+# kubectl describe pod busybox
+# kubectl delete -f test-busybox.yml
