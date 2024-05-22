@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debian
+  labels:
+    name: debian
+spec:
+  containers:
+  - name: debian
+    image: debian:trixie-20240513-slim
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "250m"
+    # ports:
+      # - containerPort: <Port>
+    command: ["bash", "-c", "--"]
+    args: ["while true; do sleep 30; done;"]
+# kubectl exec -it debian -- bash
