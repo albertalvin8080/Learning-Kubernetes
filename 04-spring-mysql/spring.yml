@@ -1,0 +1,39 @@
+# Deploy
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring
+  template:
+    metadata:
+      labels:
+        app: spring
+    spec:
+      containers:
+      - name: spring
+        image: albertalvin/k8s-spring-mysql:0.0.1-SNAPSHOT
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE_NAME
+          value: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring
+spec:
+  type: LoadBalancer
+  selector:
+    app: spring
+  ports:
+  - port: 8080
+    targetPort: 8080
