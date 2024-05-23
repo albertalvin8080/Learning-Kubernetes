@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+  labels:
+    name: mypod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.26
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "250m"
+    ports:
+      - containerPort: 80
+  - name: busybox
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "250m"
+    ports:
+      - containerPort: 81
+    command:
+    - sleep
+    - "3600" # one hour
+
+# kubectl apply -f mypod.yml
+# kubectl delete -f mypod.yml
+# kubectl exec -it mypod -c nginx -- sh
+# kubectl exec -it mypod -c busybox -- sh
+# wget -qO- localhost
