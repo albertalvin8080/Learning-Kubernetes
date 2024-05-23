@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+  labels:
+    name: mysql
+spec:
+  containers:
+  - name: mysql
+    image: mysql:8.0.36-debian
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 3306
+    env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        - name: MYSQL_DATABASE
+          value: db_test
+    volumeMounts:
+        - name: db-init-script
+          mountPath: /docker-entrypoint-initdb.d
+  volumes:
+  - name: db-init-script
+    configMap: 
+      name: init-sql
+
+# kubectl logs mysql -f
+# kubectl exec -it mysql -- bash
+# kubectl apply -f mysql-pod.yml
+# kubectl delete -f mysql-pod.yml

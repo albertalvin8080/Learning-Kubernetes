@@ -16,7 +16,7 @@ spec:
         image: mysql:8.0.36-debian
         resources:
           limits:
-            memory: "128Mi"
+            memory: "512Mi"
             cpu: "500m"
         ports:
         - containerPort: 3306
@@ -25,17 +25,27 @@ spec:
           value: root
         - name: MYSQL_DATABASE
           value: db_test
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: mysql
-# spec:
-#   selector:
-#     app: mysql
-#   ports:
-#   - port: 3306
-#     targetPort: 3306
+        volumeMounts:
+        - name: db-init-script
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: db-init-script
+          configMap: 
+            name: init-sql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: ClusterIP
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
 
+# kubectl create configmap init-sql --from-file=.\spring\init.sql
+# kubectl get configmap
 # kubectl apply -f mysql.yml
 # kubectl delete -f mysql.yml

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  type: NodePort
+  selector:
+    # At least one label must match the label of a Pod. Howerver, if at least one label has a different value, the Pod will NOT be matched.
+    app: nginx
+    type: proxy
+  ports:
+  - port: 80
+    targetPort: 80
+
+# kubectl apply -f nginx-pod.yml -f nginx-service.yml
+# kubectl delete -f nginx-pod.yml -f nginx-service.yml
+# kubectl port-forward service/nginx 8080:80

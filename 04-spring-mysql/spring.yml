@@ -13,12 +13,16 @@ spec:
       labels:
         app: spring
     spec:
+      initContainers:
+      - name: init-mysql
+        image: busybox:stable-uclibc
+        command: ["sh", "-c", "until nslookup mysql; do echo 'waiting for mysql service'; sleep 4; done;"]
       containers:
       - name: spring
         image: albertalvin/k8s-spring-mysql:0.0.1-SNAPSHOT
         resources:
           limits:
-            memory: "128Mi"
+            memory: "512Mi"
             cpu: "500m"
         ports:
         - containerPort: 8080
@@ -37,3 +41,10 @@ spec:
   ports:
   - port: 8080
     targetPort: 8080
+
+# kubectl apply -f spring.yml 
+# kubectl delete -f spring.yml
+
+# -> Remember that the pod name is dynamic
+# kubectl logs spring-745f954fb6-d5ftm -c init-mysql -f
+# kubectl apply -f spring.yml -f mysql.yml
