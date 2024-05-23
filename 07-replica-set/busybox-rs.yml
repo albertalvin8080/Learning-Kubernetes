@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: busybox-rs
+spec:
+  replicas: 3
+  selector:
+    app: busytest
+  template:
+    metadata:
+      name: busytest-pod
+      labels:
+        app: busytest
+    spec:
+      containers:
+        - name: busy-container
+          image: busybox:stable-uclibc
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 250m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          command: ["sleep", "3600"]
+
+# kubectl apply -f busybox-rs.yml
+# kubectl delete -f busybox-rs.yml
+# kubectl get rs
+# kubectl describe rs busybox-rs
+# kubectl describe -f busybox-rs.yml
