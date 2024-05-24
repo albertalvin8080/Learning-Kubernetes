@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mystatefulset
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  serviceName: headless-svc
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.26
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: www
+          mountPath: /var/www
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: headless-svc
+spec:
+  selector:
+    app: myapp
+  ports:
+  - port: 80
+    name: web
+    targetPort: 80
+  clusterIP: None
+
+# kubectl apply -f nginx-sts.yml
+# kubectl delete -f nginx-sts.yml
+# kubectl delete pvc --all
+
+# 1. kubectl exec -it mystatefulset-1 -- bash
+# 2. curl http://headless-svc
+# 3. curl http://mystatefulset-0.headless-svc
+# 4. cat > /var/www/test.txt ( ctrl + d to finish )
+# 5. kubectl delete pod mystatefulset-1
+# 6. kubectl exec -it mystatefulset-1 -- bash
+# 7. cat /var/www/test.txt
