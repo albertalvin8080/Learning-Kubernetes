@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox-ds
+  namespace: default
+  labels:
+    app: busybox-ds
+spec:
+  selector:
+    matchLabels:
+      name: busytest
+  template:
+    metadata:
+      labels:
+        name: busytest
+    spec:
+      tolerations:
+      # These tolerations ensure that your DaemonSet pods can run on control plane and master nodes, which are typically tainted to prevent workloads from being scheduled on them. 
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists # `Exists` means that the toleration will match any taint that has the same key, regardless of the value or effect of the taint. 
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      # It may be desirable to set a high priority class to ensure that a DaemonSet Pod preempts running Pods
+      # because if the new Pod cannot fit on the node, the default scheduler may need to preempt (evict) some of the existing Pods based on the priority of the new Pod.
+      # priorityClassName: important
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: busybox
+        image: busybox:stable-uclibc
+        resources:
+          limits:
+            cpu: 200m
+            memory: 200Mi
+        command: ["sleep", "3600"]
+      
+# kubectl apply -f busybox-ds.yml
+# kubectl delete -f busybox-ds.yml
+# kubectl get pods --selector=name=busytest -o wide
