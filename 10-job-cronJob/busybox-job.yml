@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: busyjob
+spec:
+  parallelism: 3
+  completions: 3
+  activeDeadlineSeconds: 30
+  ttlSecondsAfterFinished: 100 # Limits the lifetime of a job that has finished execution.
+  template:
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:stable-uclibc
+        # command: ["sh", "-c", "echo Hello from busybox: ip - $(hostname -i)"]
+        command: ["sh", "-c", "echo Hello from busybox: $HOSTNAME"]
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            # downwardAPI
+              fieldRef:
+                fieldPath: metadata.name # acts as the hosts' name
+      restartPolicy: Never
+
+# kubectl apply -f busybox-job.yml
+# kubectl delete -f busybox-job.yml
+# kubectl logs ( remember to add the name of the pod at the end )

@@ -1,15 +1,15 @@
 #!/bin/bash
 
 read -p "Enter a commit message: " commit_message
-echo ""
+# echo
 
 git add .
-echo ""
+echo
 
 git commit -m "$commit_message"
-echo ""
+echo
 
 git push
-echo ""
+echo
 
 read -p "Press any key to close..."

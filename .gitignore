@@ -54,6 +54,8 @@ JPA_Hibernate/first-test/mysql-data/
 **/target/
 **/out/
 
+**/*.out
+
 **/mongodb_data/
 
 # C/*/*.exe
@@ -80,3 +82,4 @@ JPA_Hibernate/first-test/mysql-data/
 
 -- TESTING --
 **/*.madmoiselle
+# TESTING COPY SH

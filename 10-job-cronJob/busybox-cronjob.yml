@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronbusyjob
+spec:
+  schedule: "*/1 * * * *" # cron expression (read your notes for more info)
+  # schedule: "* * * * *" # same behavior
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox:stable-uclibc
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+
+# kubectl apply -f busybox-cronjob.yml
+# kubectl delete -f busybox-cronjob.yml
+# kubectl logs ( remember to add the name of the pod at the end )
