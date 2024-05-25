@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-hello
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: spring-hello
+  template:
+    metadata:
+      labels:
+        app: spring-hello
+    spec:
+      containers:
+      - name: spring-hello
+        image: albertalvin/k8s-spring-hello:0.0.2-SNAPSHOT
+        # image: albertalvin/k8s-spring-hello:0.0.6-SNAPSHOT
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-svc
+spec:
+  selector:
+    app: spring-hello
+  ports:
+  - port: 3000
+    targetPort: 8080
+
+# kubectl apply -f spring-hello.yml
+# kubectl delete -f spring-hello.yml
+# kubectl port-forward service/spring-svc 80:3000
+
+# kubectl rollout status deploy spring-hello
+# kubectl rollout history deploy spring-hello
+# kubectl rollout undo deploy spring-hello --to-revision=1
