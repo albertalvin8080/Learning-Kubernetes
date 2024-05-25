@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-dpl-v1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: spring-hello-v1
+  template:
+    metadata:
+      labels:
+        app: spring-hello-v1
+    spec:
+      containers:
+      - name: spring-hello-v1
+        image: albertalvin/k8s-spring-hello:0.0.2-SNAPSHOT
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+# kubectl apply -f spring-hello-v1.yml
+# kubectl delete -f spring-hello-v1.yml
