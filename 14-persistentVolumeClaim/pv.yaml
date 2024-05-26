@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mypv
+  labels:
+    type: local
+spec:
+  storageClassName: slow
+  capacity:
+    storage: 10Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath: 
+    path: "/voldata"
+  
+# kubectl get pv
+# kubectl describe pv mypv
+# kubectl apply -f pv.yaml

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+spec:
+  storageClassName: slow
+  resources:
+    requests:
+      # The capacity of a PVC is determined by the capacity of the PV it is bound to, not by the capacity defined in the YAML file of the PVC (?). This storage property here is used for matching with an existing PC.
+      storage: 8Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      type: local

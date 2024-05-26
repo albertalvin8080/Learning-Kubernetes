@@ -1,0 +1,1 @@
+kubectl exec -it busybox-pod -- sh

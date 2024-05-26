@@ -1,3 +1,4 @@
+# WARNING: if you apply the pv.yml, all pods will try to have a PVC fot the same PC. Because it's not allowed, only the first pod will be successfully deployed.
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -26,10 +27,11 @@ spec:
   - metadata:
       name: www
     spec:
+      # storageClassName: slow
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 1Gi
+          storage: 10Mi
 ---
 apiVersion: v1
 kind: Service
@@ -55,3 +57,6 @@ spec:
 # 5. kubectl delete pod mystatefulset-1
 # 6. kubectl exec -it mystatefulset-1 -- bash
 # 7. cat /var/www/test.txt
+
+# -> Independent Storage: Each pod in the StatefulSet has its own PVC. Any changes made to the volume are specific to the PVC associated with the pod that made the change.
+# -> Stateful Pods, Not Shared Storage: While StatefulSets ensure pod order and maintain a unique identifier, they don't inherently provide shared storage across containers within the StatefulSet.
