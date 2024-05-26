@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer-svc
+spec:
+  type: LoadBalancer 
+  selector:
+    app: nginx
+  ports:
+  - port: 5000
+    targetPort: 80
+    nodePort: 32554
+
+# http://<EXTERNAL-IP>:32554
+# http://<any-node-ip>:32554 <- When not using a Cloud Provider
