@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox1
+  labels:
+    app: busybox
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+  - name: busybox
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    command: ["sleep", "3600"]
+    env:
+    - name: NAME
+      valueFrom:
+        configMapKeyRef:
+          name: mycm
+          key: name
+    - name: BIRTH_DATE
+      valueFrom:
+        configMapKeyRef:
+          name: mycm
+          key: birth
+
+# kubectl exec -it busybox1 -- sh
+# echo "$NAME $BIRTH_DATE"

@@ -1,0 +1,1 @@
+kubectl delete -f cm.yml -f init-sql-cm.yml -f pod1.yml -f pod2.yml

@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox2
+  labels:
+    app: busybox
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+  - name: busybox
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    command: ["sleep", "3600"]
+    volumeMounts:
+    - mountPath: /var/www
+      name: volmap
+    - mountPath: /var/sql
+      name: initsql
+  volumes:
+  - name: volmap
+    configMap:
+      name: mycm
+  - name: initsql
+    configMap:
+      name: init-sql-cm
+
+# kubectl exec -it busybox2 -- sh -c "cd /var && sh"
