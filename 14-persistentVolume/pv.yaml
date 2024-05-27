@@ -5,7 +5,8 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: slow
+  # Instead of setting this same property as "" in the PVC (you're currently inside the PV, not the PVC), you could also use the same value for both.
+  # storageClassName: slow 
   capacity:
     storage: 10Mi
   volumeMode: Filesystem
@@ -13,7 +14,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath: 
-    path: "/voldata"
+    path: "/14-persistentVolume"
   
 # kubectl get pv
 # kubectl describe pv mypv

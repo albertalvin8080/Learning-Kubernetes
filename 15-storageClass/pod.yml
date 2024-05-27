@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  # name: busybox2
+  labels:
+    app: busybox
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+  - name: myapp
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    # ports:
+      # - containerPort: <Port>
+    command: ["sleep", "3600"]
+    volumeMounts:
+      - mountPath: /var/www
+        name: test
+  volumes:
+  - name: test
+    persistentVolumeClaim:
+      claimName: mypvc

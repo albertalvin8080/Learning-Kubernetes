@@ -1,0 +1,1 @@
+kubectl exec -it busybox -- sh -c "cd /var/www && sh"

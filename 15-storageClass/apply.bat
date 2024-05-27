@@ -1,0 +1,1 @@
+kubectl apply -f sc.yml -f pvc.yml -f pvc2.yml -f pod.yml

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-pod2
+  labels:
+    app: busybox2
+spec:
+  terminationGracePeriodSeconds: 10
+  containers:
+  - name: busybox2
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    # ports:
+      # - containerPort: <Port>
+    command: ["sleep", "3600"]
+    volumeMounts:
+      - mountPath: "/test/www"
+        name: test
+  volumes:
+    - name: test
+      persistentVolumeClaim:
+        claimName: mypvc
+
+# kubectl exec -it busybox-pod2 -- sh -c "cd /test/www/ && sh"

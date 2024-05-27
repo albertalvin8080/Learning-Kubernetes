@@ -3,11 +3,16 @@ kind: PersistentVolumeClaim
 metadata:
   name: mypvc
 spec:
-  storageClassName: slow
+  # If you already have a PersistentVolume (what is the case) along with the 
+  # corresponding storage medium provisioned and want to use that without 
+  # referring to a custom StorageClass or the default one, you can set 
+  # storageClassName to an empty string ("") in the PersistentVolumeClaim.
+  storageClassName: ''
   resources:
     requests:
       # The capacity of a PVC is determined by the capacity of the PV it is bound to, not by the capacity defined in the YAML file of the PVC (?). This storage property here is used for matching with an existing PC.
-      storage: 8Mi
+      # storage: 8Mi
+      storage: 10Mi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
