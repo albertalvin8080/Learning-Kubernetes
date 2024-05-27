@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox1
+  labels:
+    app: busybox
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+  - name: busybox
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    command: ["sleep", "3600"]
+    env:
+    - name: USERNAME
+      valueFrom:
+        secretKeyRef: # Will automatically be decoded before being injected as env variable.
+          name: opaque-secret
+          key: username
+    - name: PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: opaque-secret
+          key: password
+
+# kubectl exec -it busybox1 -- sh -c "echo $USERNAME $PASSWORD"

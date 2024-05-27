@@ -1,0 +1,1 @@
+kubectl delete -f busybox1.yml -f busybox2.yml -f opaque-secret.yml
