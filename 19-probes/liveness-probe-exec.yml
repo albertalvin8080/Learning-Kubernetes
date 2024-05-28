@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-probe-exec
+  labels:
+    app: busbybox
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+  - name: busbybox
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    command: 
+    - sh
+    - -c
+    - >
+      touch /var/health.txt; 
+      sleep 15; 
+      rm -rf /var/health.txt; 
+      sleep 3600;
+    livenessProbe:
+      exec:
+        command:
+          - cat
+          - /var/health.txt
+      periodSeconds: 3 # How often to perform the probe.
+      failureThreshold: 1 # Minimum consecutive failures for the probe to be considered failed.
+      initialDelaySeconds: 5 # Number of seconds after the container has started before probes are initiated.
+
+# kubectl apply -f liveness-probe-exec.yml
+# kubectl delete -f liveness-probe-exec.yml
+# kubectl describe -f liveness-probe-exec.yml

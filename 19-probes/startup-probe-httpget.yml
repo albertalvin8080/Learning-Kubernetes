@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startup-probe-httpget
+  labels:
+    app: nginx
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+  - name: nginx
+    image: nginx:1.26
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+    command:
+    - sh
+    - -c
+    # Since the probe is a StartUp one, it will stop checking for the probe once it has been successful.
+    # So even if nginx is stopped afterwards, it doesn't matter.
+    # ------------------------------------------------------------------
+    # ->> Testing for success.
+    # - nginx -g 'daemon on;'; sleep 15; service nginx stop; sleep 3600; 
+    # ->> Testing for failure. Will be restarted continuously until Back-off.
+    - sleep 3600;
+    # ------------------------------------------------------------------
+    startupProbe:
+      httpGet:
+        port: 80
+        path: /
+      periodSeconds: 3
+      failureThreshold: 2
+      initialDelaySeconds: 5
+
+# kubectl apply -f startup-probe-httpget.yml
+# kubectl delete -f startup-probe-httpget.yml
+
+# kubectl describe -f startup-probe-httpget.yml
+# kubectl exec -it startup-probe-httpget -- sh
