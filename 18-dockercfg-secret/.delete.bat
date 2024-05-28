@@ -1,1 +1,0 @@
-kubectl delete -f dockercfg-secret.yml -f private-pod.yml

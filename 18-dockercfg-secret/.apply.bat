@@ -1,1 +1,0 @@
-kubectl apply -f dockercfg-secret.yml -f private-pod.yml

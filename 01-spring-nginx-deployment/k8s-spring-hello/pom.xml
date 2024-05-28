@@ -62,11 +62,14 @@
 				<configuration>
 					<from>
 						<image>gcr.io/distroless/java17-debian12</image>
+						<!-- <image>eclipse-temurin:17.0.11_9-jre-jammy</image> -->
 					</from>
 					<to>
 						<image>albertalvin/${project.artifactId}</image>
+						<!-- <image>albertalvin/k8s-spring-private-hello</image> -->
 						<tags>
 							<tag>${project.version}</tag>
+							<!-- <tag>eclipse-temurin</tag> -->
 						</tags>
 					</to>
 					<container>
