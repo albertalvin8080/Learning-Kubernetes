@@ -1,0 +1,1 @@
+kubectl exec -it -n frontend busybox -- sh

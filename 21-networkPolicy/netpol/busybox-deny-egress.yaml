@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: busybox-deny-egress
+  namespace: frontend
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+
+# Explanation: This netpol will prevent busybox pod from starting communication with pods inside other namespaces.
+
+# kubectl apply -f busybox-deny-egress.yaml
+# kubectl delete netpol -n frontend busybox-deny-egress
+
+# kubectl get netpol -n frontend
+# kubectl describe netpol -n frontend busybox-deny-egress
+

@@ -8,6 +8,8 @@ spec:
   policyTypes:
   - Ingress
 
+# Explanation: This netpol will prevent nginx pod from receiving traffic from pods inside other namespaces
+
 # kubectl apply -f deny-other-namespaces.yaml
 # kubectl delete netpol -n backend deny-other-namespaces
 

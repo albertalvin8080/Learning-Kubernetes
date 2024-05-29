@@ -1,3 +1,1 @@
-kubectl create namespace frontend
-kubectl create namespace backend
-kubectl apply -f nginx.yaml -f busybox.yaml
+kubectl apply -f ns-backend.yaml -f ns-frontend.yaml -f nginx.yaml -f busybox.yaml

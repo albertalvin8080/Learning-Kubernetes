@@ -1,1 +1,1 @@
-kubectl delete -f nginx.yaml -f busybox.yaml
+kubectl delete -f ns-backend.yaml -f ns-frontend.yaml -f nginx.yaml -f busybox.yaml
