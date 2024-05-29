@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spring
+  labels:
+    spring-hello: spring
+  namespace: production
+spec:
+  containers:
+  - name: spring
+    image: albertalvin/k8s-spring-hello:0.0.6-SNAPSHOT
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "250m"
+    ports:
+      - containerPort: 8080
+    env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: docker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring
+spec:
+  type: ClusterIP
+  selector:
+    spring-hello: spring
+  ports:
+  - port: 2000
+    targetPort: 8080

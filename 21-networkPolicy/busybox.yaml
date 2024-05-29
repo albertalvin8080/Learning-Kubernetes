@@ -19,3 +19,4 @@ spec:
 # kubectl get po -n frontend
 # kubectl exec -it -n frontend busybox -- sh
 # wget -qO- http://nginx-svc.backend:3000
+# nslookup nginx-svc.backend
