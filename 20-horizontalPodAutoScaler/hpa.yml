@@ -1,0 +1,22 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spring-dpl
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        # Basically means this HPA will upward scale pods when they're using 50% or more of the allocated resource.
+        averageUtilization: 50 # Percentage of the requested value of the resource for the pods (cpu in this case).
+
+# kubectl apply -f hpa.yml
+# kubectl delete -f hpa.yml

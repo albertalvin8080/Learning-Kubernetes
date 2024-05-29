@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  labels:
+    name: busybox
+spec:
+  terminationGracePeriodSeconds: 5
+  containers:
+  - name: busybox
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    command: ["sleep", "3600"]
+
+# kubectl apply -f busybox.yml
+# kubectl delete -f busybox.yml
+
+# kubectl exec -it busybox -- sh
+# while true; do wget -qO- http://spring-svc:4000; echo; done;

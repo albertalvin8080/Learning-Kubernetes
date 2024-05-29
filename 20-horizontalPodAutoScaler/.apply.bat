@@ -1,0 +1,1 @@
+kubectl apply -f metrics-server.yml -f deploy.yml -f hpa.yml -f busybox.yml
