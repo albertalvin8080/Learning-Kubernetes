@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+  namespace: backend
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.26
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+  namespace: backend
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 3000
+    targetPort: 80
+
+# kubectl get po -n backend
+# kubectl exec -it -n backend nginx -- sh
+# kubectl port-forward service/nginx-svc -n backend 8080:3000

@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-other-namespaces
+  namespace: backend
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+
+# kubectl apply -f deny-other-namespaces.yaml
+# kubectl delete netpol -n backend deny-other-namespaces
+
+# kubectl get netpol -n backend
+# kubectl describe netpol -n backend deny-other-namespaces
+
