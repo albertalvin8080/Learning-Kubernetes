@@ -1,0 +1,1 @@
+kubectl apply -f nginx.yaml -f spring.yaml

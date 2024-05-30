@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-multipath
+  namespace: default
+  labels:
+    name: ingress-multipath
+  annotations:
+    # In your case, nginx.ingress.kubernetes.io/rewrite-target: / means that any incoming requests that match the
+    #   specified path (like /testpath) will be rewritten to / before being forwarded to the backend service.
+    # For example, if a client sends a request to http://your-domain.com/testpath/somepage, the request that the 
+    #   backend service receives will be http://your-domain.com/somepage, because the /testpath has been rewritten to /.
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: myapp.com
+    http:
+      paths:
+        - path: /nginx # Remember that you made the path to be rewritten with a trailing slash `/`.
+          pathType: Prefix
+          backend: 
+            service:
+              name: nginx
+              port: 
+                number: 4000
+        - path: /spring
+          pathType: Exact
+          backend:
+            service:
+              name: spring
+              port:
+                number: 2000
+
+# NOTE: Use your `hosts` file for testing locally.
+
+# kubectl apply -f ingress-multipath.yaml
+# kubectl delete -f ingress-multipath.yaml
+          
+# -> It may take some time for the Ingress to receive a Node IP Adress.
+# kubectl get ingress ingress-multipath -n default
+# kubectl describe ingress ingress-multipath -n default

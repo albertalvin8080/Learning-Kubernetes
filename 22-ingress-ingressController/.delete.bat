@@ -1,0 +1,1 @@
+kubectl delete -f nginx.yaml -f spring.yaml
