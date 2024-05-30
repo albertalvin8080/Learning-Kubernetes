@@ -15,24 +15,30 @@ spec:
           matchLabels:
             # If you don't allow the pod to start traffic with the services of the kube-system, it obviously will not be able to use the necessary features to communicate with other pods.
             # ->> kubectl label namespace kube-system networking/namespace=kube-system
-            networking/namespace: kube-system 
+            # networking/namespace: kube-system 
+            kubernetes.io/metadata.name: kube-system # Or you may just use the default label for kube-system namespace.
       - namespaceSelector:
           matchLabels:
-            type: backend
-      # - podSelector:
-      #     matchExpressions:
-      #       - key: spring-hello
-      #         operator: Exists 
-      #         values: [] # The value doesn't matter due to the usage of `operator: Exists`.
+            type: backend # Isolated for Egress for all Pods inside the `backend` namespace
+      - namespaceSelector:
+          matchLabels:
+            type: production
+        podSelector:
+          matchExpressions:
+            - key: spring-hello
+              operator: Exists # Matches the pod just by having `spring-hello` as a key for a label.
+              values: [] # Should be an empty array since `operator: Exists` is setted.
       ports:
         - protocol: TCP
-          port: 80 # http
+          port: 8080 # Port mapped inside spring pod
         - protocol: TCP
-          port: 53 # dns
+          port: 80 # Port mapped inside nginx pod
+        - protocol: TCP
+          port: 53 # core-dns
         - protocol: UDP
-          port: 53 # dns
+          port: 53 # core-dns
 
-# Explanation: This netpol will allow busybox to communicate with the nginx and spring pods (and kube-system pods).
+# Explanation: This netpol will allow busybox to communicate with nginx and spring pods (and kube-system pods).
 
 # kubectl apply -f busybox-allow-egress.yaml
 # kubectl delete netpol -n frontend busybox-allow-egress

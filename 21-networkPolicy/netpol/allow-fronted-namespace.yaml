@@ -17,7 +17,7 @@ spec:
             type: frontend
       ports:
         - protocol: TCP
-          port: 80
+          port: 80 # Port used to receive traffic inside nginx pod.
             
 # Explanation: This netpol will allow pods within namespaces which have `type: frontend` label.
 
