@@ -12,6 +12,11 @@ metadata:
     #   backend service receives will be http://your-domain.com/somepage, because the /testpath has been rewritten to /.
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  defaultBackend:
+    service:
+      name: python-server # It should be an error page, but for testing purposes, it's not.
+      port:
+        number: 5000
   rules:
   - host: myapp.com
     http:
@@ -24,7 +29,8 @@ spec:
               port: 
                 number: 4000
         - path: /spring
-          pathType: Exact
+          pathType: Prefix
+          # pathType: Exact
           backend:
             service:
               name: spring

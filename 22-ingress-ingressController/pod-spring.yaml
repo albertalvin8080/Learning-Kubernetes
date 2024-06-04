@@ -23,6 +23,7 @@ kind: Service
 metadata:
   name: spring
 spec:
+  type: ClusterIP
   selector:
     app: spring
   ports:
