@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  labels:
+    name: myingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  # WARNING: You need to do a hard reload if you want nginx-pod to send the welcome page and not send back a 304 NOT MODIFIED. 
+  # NOTE: You may use a browser or curl to make the requests. 
+  # curl (request):
+  # - http  >> curl http://myapp.com/nginx
+  # - https >> curl -k https://myapp.com/nginx 
+  #            OR 
+  #            curl --cacert /path/to/certificate.crt https://myapp.com/nginx
+  # Wireshark (capture):
+  # - http  >> ip.src == <ingress-ip> && tcp.port == 80
+  # - https >> ip.src == <ingress-ip> && tcp.port == 443
+  tls:
+  - hosts: 
+    - myapp.com
+    secretName: cert-secret
+  rules:
+  - host: myapp.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /nginx
+        backend:
+          service:
+            name: nginx
+            port: 
+              number: 4000
