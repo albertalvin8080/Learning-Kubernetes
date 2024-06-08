@@ -13,12 +13,12 @@ import datetime
 # Generate a private key
 private_key = rsa.generate_private_key(
     public_exponent=65537,
-    key_size=2048
+    key_size=2048,
     backend=default_backend(),
 )
 
 # Write private key to file
-with open("albert.key", "wb") as f:
+with open("./cert.d/albert.key", "wb") as f:
     f.write(
         private_key.private_bytes(
             encoding=Encoding.PEM,
@@ -44,16 +44,16 @@ csr = (
 )
 
 # Write CSR to file
-with open("albert.csr", "wb") as f:
+with open("./cert.d/albert.csr", "wb") as f:
     f.write(csr.public_bytes(Encoding.PEM))
 
 # Load CA key and certificate
-with open("ca.key", "rb") as f:
+with open("./cert.d/ca.key", "rb") as f:
     ca_private_key = serialization.load_pem_private_key(
         f.read(), password=None, backend=default_backend()
     )
 
-with open("ca.crt", "rb") as f:
+with open("./cert.d/ca.crt", "rb") as f:
     ca_cert = x509.load_pem_x509_certificate(f.read(), default_backend())
 
 # Sign the CSR with the CA key to create the certificate
@@ -74,7 +74,7 @@ cert = (
 )
 
 # Write certificate to file
-with open("albert.crt", "wb") as f:
+with open("./cert.d/albert.crt", "wb") as f:
     f.write(cert.public_bytes(Encoding.PEM))
 
 # Explanation:

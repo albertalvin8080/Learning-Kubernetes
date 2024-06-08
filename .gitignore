@@ -82,6 +82,9 @@ JPA_Hibernate/first-test/mysql-data/
 
 **/.metadata
 
+24-rbac-ca-user-authorization/cert.d/ca.crt
+24-rbac-ca-user-authorization/cert.d/ca.key
+
 -- TESTING --
 **/*.madmoiselle
 # TESTING COPY SH
