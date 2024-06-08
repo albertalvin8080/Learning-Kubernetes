@@ -13,11 +13,11 @@ target/
 *.ipr
 
 ### Eclipse ###
-.apt_generated
-.classpath
+**/.apt_generated/
+**/.classpath
 .factorypath
-.project
-.settings
+**/.project
+**/.settings/
 .springBeans
 .sts4-cache
 
@@ -79,6 +79,8 @@ JPA_Hibernate/first-test/mysql-data/
 **/*.h.gch # compiled header files
 
 **/*.class
+
+**/.metadata
 
 -- TESTING --
 **/*.madmoiselle
