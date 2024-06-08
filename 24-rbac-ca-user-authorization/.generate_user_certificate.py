@@ -27,9 +27,9 @@ with open("./cert.d/albert.key", "wb") as f:
         )
     )
 
-# Create a CSR
 common_name = "Albert Alvin"
 organization = "DevInc"
+# Create a CSR
 csr = (
     x509.CertificateSigningRequestBuilder()
     .subject_name(
@@ -56,8 +56,9 @@ with open("./cert.d/ca.key", "rb") as f:
 with open("./cert.d/ca.crt", "rb") as f:
     ca_cert = x509.load_pem_x509_certificate(f.read(), default_backend())
 
-# Sign the CSR with the CA key to create the certificate
 validity = datetime.timedelta(1, 0, 0)
+# validity = datetime.timedelta(0) # Causes `Unauthorized` error
+# Sign the CSR with the CA key to create the certificate
 cert = (
     x509.CertificateBuilder()
     .subject_name(csr.subject)
@@ -76,6 +77,8 @@ cert = (
 # Write certificate to file
 with open("./cert.d/albert.crt", "wb") as f:
     f.write(cert.public_bytes(Encoding.PEM))
+
+print("crt and key successfuly generated.")
 
 # Explanation:
 # Signing the Certificate Signing Request (CSR) with albert’s private key 
