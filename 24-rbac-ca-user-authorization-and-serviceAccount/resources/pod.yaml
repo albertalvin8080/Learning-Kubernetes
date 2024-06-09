@@ -6,6 +6,7 @@ metadata:
   labels:
     app: nginx
 spec:
+  serviceAccountName: devinc-sa
   containers:
   - name: nginx
     image: nginx:1.26
@@ -15,3 +16,5 @@ spec:
         cpu: "250m"
     ports:
       - containerPort: 80
+
+# kubectl exec -it -n devinc nginx -- bash

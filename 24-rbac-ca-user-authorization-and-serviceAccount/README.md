@@ -77,9 +77,9 @@ export CACERT=${SERVICEACCOUNT}/ca.crt # Should be the path, not the content of 
 export APISERVER=https://kubernetes.default.svc
 ```
 
-### You should still receive a `forbidden 403`, but now specifying that the `default` ServiceAccount doesn't have permission to list the pods inside devinc namespace.
 ```bash
 curl --cacert ${CACERT} \
 --header "Authorization: Bearer $TOKEN" \
 -s ${APISERVER}/api/v1/namespaces/${NAMESPACE}/pods/ 
 ```
+> WARNING: If you don't specify the `devic-sa` ServiceAccount inside the pod.yaml, you will still receive a `forbidden 403`, but now specifying that the `default` ServiceAccount doesn't have permission to list the pods inside devinc namespace.

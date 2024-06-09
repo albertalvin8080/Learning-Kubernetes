@@ -15,6 +15,7 @@ python3 .generate_user_certificate.py
 
 kubectl create namespace devinc
 
+# If this file doesn't exist, kubectl will create it for you.
 export KUBECONFIG=~/.kube/customconfig
 
 echo -e "\033[0;33mWARNING: Remember to confirm the Kubernetes Server IP for the cluster field.\033[0m"
@@ -48,6 +49,6 @@ kubectl config current-context
 echo -e "\n\033[0;36mStep 4: Attempt to list pods (expecting forbidden error)\033[0m"
 kubectl get pods
 
-echo -e "\033[33mWARNING: If you're not seeing the 'forbidden' error, you probably forgot to enable RBAC configuration for your Cluster.\033[0m\n"
+echo -e "\033[33mWARNING: If you're not seeing the 'forbidden' error:\nCase 1 - You forgot to enable RBAC configuration for your Cluster.\nCase 2 - You have already created roles and rolebindings for the user.\033[0m\n"
 
-echo -e "\033[0;31mWARNING:\The configuration set by 'export KUBECONFIG=~/.kube/customconfig' is only valid for this instance of the shell. You need to manually set the env var if you want to access the Cluster using the customconfig file from another instance.\n"
+echo -e "\033[0;31mWARNING: The configuration set by 'export KUBECONFIG=~/.kube/customconfig' is only valid for this instance of the shell. You need to manually set the env var if you want to access the Cluster using the customconfig file from another instance.\n"

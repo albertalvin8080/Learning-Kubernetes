@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: albert-role
+  name: user-role
   namespace: devinc
 rules:
 # Want to list pods across all namespaces? Too bad! You would need a ClusterRole for this purpose.
