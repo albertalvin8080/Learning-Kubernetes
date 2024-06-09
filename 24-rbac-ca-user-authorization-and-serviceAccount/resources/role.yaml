@@ -4,10 +4,11 @@ metadata:
   name: albert-role
   namespace: devinc
 rules:
+# Want to list pods across all namespaces? Too bad! You would need a ClusterRole for this purpose.
 - apiGroups: [""] # Yes, pods don't have an apiGroup
   resources: ["pods", "pods/exec"]
-  # verbs: ["get", "watch", "list", "create", "delete"]
-  verbs: ["get"] # 'get' is not enough to list the pods.
+  verbs: ["get", "watch", "list", "create", "delete"]
+  # verbs: ["get"] # 'get' is not enough to list the pods.
 - apiGroups: ["apps"]
   resources: ["deployments"]
   verbs: ["get", "watch", "list"]
