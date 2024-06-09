@@ -3,6 +3,9 @@
 # WARNING: this script assumes you're using microk8s snap with wsl
 echo
 
+# If you don't enable this before executing the rest of the script, you may need to reinstall your microk8s. Yes, it's that serious. Enabling and Disabling your RBAC configuration for your Cluster can break it.
+microk8s enable rbac
+
 rm -rf ./cert.d
 mkdir ./cert.d
 cp /var/snap/microk8s/current/certs/ca.crt ./cert.d/ca.crt
@@ -10,9 +13,11 @@ cp /var/snap/microk8s/current/certs/ca.key ./cert.d/ca.key
 
 python3 .generate_user_certificate.py
 
+kubectl create namespace devinc
+
 export KUBECONFIG=~/.kube/customconfig
 
-echo -e '\033[0;31m'Remember to confirm the Kubernetes Server IP for the cluster field.'\033[0m'
+echo -e "\033[0;33mWARNING: Remember to confirm the Kubernetes Server IP for the cluster field.\033[0m"
 kubectl config set-cluster test-cluster \
 --server=https://172.29.156.149:16443 \
 --certificate-authority=./cert.d/ca.crt \
@@ -37,10 +42,12 @@ kubectl config view --minify
 echo -e "\n\033[0;36mStep 2: Check current context\033[0m"
 kubectl config current-context
 
-echo -e "\n\033[0;36mStep 3: List roles, role bindings, cluster roles and cluster role bindings in devinc namespace\033[0m"
-kubectl get roles,rolebindings,clusterrole,clusterrolebindings -n devinc
+# echo -e "\n\033[0;36mStep 3: List roles, role bindings, cluster roles and cluster role bindings in devinc namespace\033[0m"
+# kubectl get roles,rolebindings,clusterrole,clusterrolebindings -n devinc
 
 echo -e "\n\033[0;36mStep 4: Attempt to list pods (expecting forbidden error)\033[0m"
 kubectl get pods
 
-echo -e "\n\033[33mWARNING:\nIf you're not seeing the 'forbidden' error, it may be due to already existing clusterrolebindings. In this case, you may want to explicitly create a roleBinding with no permissions for the devinc namespace.\033[0m\n"
+echo -e "\033[33mWARNING: If you're not seeing the 'forbidden' error, you probably forgot to enable RBAC configuration for your Cluster.\033[0m\n"
+
+echo -e "\033[0;31mWARNING:\The configuration set by 'export KUBECONFIG=~/.kube/customconfig' is only valid for this instance of the shell. You need to manually set the env var if you want to access the Cluster using the customconfig file from another instance.\n"
