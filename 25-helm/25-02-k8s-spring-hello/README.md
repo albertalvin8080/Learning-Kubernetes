@@ -9,6 +9,7 @@
 2. Inside `templates/deployment.yaml`
 
    - Remove `spec.template.spec.containers.livenessProble` and `spec.template.spec.containers.livenessreadinessProbeProble`
+     > Note: Just commenting them did not work.
 
 3. Install the chart
 
