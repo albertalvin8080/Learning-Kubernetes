@@ -10,7 +10,7 @@
 
 2. Create the helloworld chart
 
-   > [!NOTE]
+   > Note:
    > If Helm throws warnings about group and world readability of kubeconfig file, just do a `chmod 700 /path/to/.kube/config`
 
    ```sh
@@ -61,7 +61,7 @@
 
 10. Get the port exposed by the service and make a request to it
 
-    > [!NOTE]
+    > Note:
     > You could also get the IP of WSL VM with `hostname -I` or `ip addr` and use it with the service port to directly make a request to the service from Windows.
 
     ```sh

@@ -1,0 +1,8 @@
+---
+repositories:
+  - name: myrepo
+    url: git+https://github.com/albertalvin8080/Learning-Kubernetes@25-helm/25-02-k8s-spring-hello/k8sspringhello?ref=main&sparse=0
+releases:
+  - name: spring
+    chart: myrepo/k8sspringhello
+    installed: false
