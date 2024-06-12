@@ -45,9 +45,16 @@
    ```
 
 5. Find the services and it's ports and make a request to each one
+
    ```
    kubectl get svc -A
    ```
+
    ```
    curl localhost:<port>; echo
+   ```
+
+6. Uninstall all charts (It doesn't depend on `releases.installed` property)
+   ```
+   helmfile delete
    ```
