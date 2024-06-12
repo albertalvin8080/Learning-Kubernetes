@@ -23,7 +23,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      terminationGracePeriodSeconds: 5 # Added line 
+      terminationGracePeriodSeconds: 5 # Added configuration 
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -51,6 +51,7 @@ spec:
           #   - name: http
           #     containerPort: {{ .Values.service.port }}
           #     protocol: TCP
+
           # livenessProbe:
           {{/*  {{- toYaml .Values.livenessProbe | nindent 12 }} */}}
           # readinessProbe:
@@ -62,6 +63,7 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }} # This line will paste here all attributes present in .Values.volumeMounts
           {{- end }}
+          
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

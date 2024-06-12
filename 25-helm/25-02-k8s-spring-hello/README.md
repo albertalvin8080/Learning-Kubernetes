@@ -9,7 +9,7 @@
 2. Inside `templates/deployment.yaml`
 
    - Remove `spec.template.spec.containers.livenessProble` and `spec.template.spec.containers.livenessreadinessProbeProble`
-     > Note: Just commenting them did not work.
+     > Note: Or you could comment those lines using helm-template syntax {{/* ... */}}. Using just '#' will not work because it's a template, not a common YAML file.
 
 3. Install the chart
 

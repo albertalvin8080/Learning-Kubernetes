@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "helloworld.fullname" . }}-test-file-existence"
+  labels:
+    {{- include "helloworld.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: cat
+      image: busybox:stable-uclibc
+      command: ['cat']
+      args: ['/www/test/file']
+      {{- with .Values.volumeMounts }}
+      volumeMounts:
+        {{- toYaml . | nindent 12 }} # This line will paste here all attributes present in .Values.volumeMounts
+      {{- end }}
+  {{- with .Values.volumes }}
+  volumes:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  restartPolicy: Never
