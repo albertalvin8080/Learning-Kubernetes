@@ -24,15 +24,20 @@
    kubectl port-forward -n vault my-vault-0 8200:8200
    ```
 
-1. If you're using WSL, you need to forward the port to Windows
+1. If you're using WSL, you need to forward another port to Windows
 
-   > Note: For accessing the vault Pod from Windows, you must use the ip of the WSL VM and the forwarded port below (8100). <br>
+   > Note: For accessing the vault Pod from Windows, you must use the ip of the WSL VM and the forwarded port (8100 in this case). <br>
    > Ex: http://172.29.156.149:8100/
+
+   > WARNING: Remember to annotate the Unseal Keys and the Root Key which HashCorp provides in the first login. You can also download them as a JSON from the same page.
 
    ```
    socat TCP-LISTEN:8100,fork TCP:localhost:8200
    ```
 
-   > WARNING: Remember to annotate the Unseal Keys and the Root Key which HashCorp provides in the first login. You can also download them as a JSON from the same page.
+1. Unseal and then access the vault
 
-1. 
+1. Run the Spring app locally, access the env endpoint and search for the secrets you defined inside kv/spring
+   ```
+   http://localhost:8080/actuator/env
+   ```
