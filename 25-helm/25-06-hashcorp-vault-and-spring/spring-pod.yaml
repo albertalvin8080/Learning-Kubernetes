@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spring-hashcorp
+  namespace: app
+  labels:
+    app: spring-hashcorp
+spec:
+  containers:
+  - name: spring-hashcorp
+    image: albertalvin/spring-hashcorp-test:1.0.2-eclipse-temurin
+    resources:
+      limits:
+        memory: "256Mi" # Beware of memory shortage
+        cpu: "500m"

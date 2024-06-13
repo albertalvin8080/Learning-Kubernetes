@@ -1,19 +1,24 @@
 spring:
   application:
-    name: hashcorptest
+    name: spring-hashcorp-test
 
   cloud:
     vault:
-    #   uri: http://172.29.156.149:8100
-      port: 8100
-      scheme: http
-      host: 172.29.156.149
+      uri: http://my-vault.vault:8200 # You may just use this one instead of the three properties below
+      # port: 8200 # Changed because it's not a forwarding from WSL to Windows anymore
+      # scheme: http
+      # host: my-vault.vault # <service-name>.<namespace>
       kv:
         enabled: true
         application-name: spring
-        backend: kv
-      authentication: token
-      token: 
+        backend: kv 
+        # Prevents requests to kv/data/application
+        # Not really necessary. The problem I encountered was due to memory shortage in the pod/deploy.yaml. The Pod had been crashing over and over.
+        default-context: "" 
+      authentication: kubernetes
+      kubernetes:
+        service-account-token-file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        role: role-test
 
   config:
     import: vault://

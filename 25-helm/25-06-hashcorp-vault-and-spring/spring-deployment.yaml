@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-hashcorp
+  namespace: app
+spec:
+  selector:
+    matchLabels:
+      app: spring-hashcorp
+  template:
+    metadata:
+      labels:
+        app: spring-hashcorp
+    spec:
+      containers:
+      - name: spring-hashcorp
+        image: albertalvin/spring-hashcorp-test:1.0.3-eclipse-temurin
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        # env:
+        # - name: SPRING_PROFILES_ACTIVE
+          # value: kubernetes
+        ports:
+        - containerPort: 8080

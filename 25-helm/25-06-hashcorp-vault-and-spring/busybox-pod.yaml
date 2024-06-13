@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  namespace: app
+  labels:
+    app: busybox
+spec:
+  terminationGracePeriodSeconds: 0
+  containers:
+  - name: busybox
+    image: busybox:stable-uclibc
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    command: ["sleep", "3600"]
+
+# kubectl apply -f busybox-pod.yaml
+# export TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+# echo "{\"jwt\":\"$TOKEN\",\"role\":\"role-test\"}"
+# wget -qO- --post-data="{\"jwt\":\"$TOKEN\",\"role\":\"role-test\"}" my-vault.vault:8200/v1/auth/kubernetes/login
+# << WARNING: the json MUST be double quotted.

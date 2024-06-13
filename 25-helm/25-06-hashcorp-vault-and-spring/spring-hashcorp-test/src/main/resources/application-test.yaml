@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: spring-hashcorp-test
+
+  cloud:
+    vault:
+    #   uri: http://172.29.156.149:8100
+      port: 8100
+      scheme: http
+      host: 172.29.156.149
+      kv:
+        enabled: true
+        application-name: spring
+        backend: kv
+        default-context: ""
+      authentication: token
+      token: ""
+
+  config:
+    import: vault://
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: [env, health]
